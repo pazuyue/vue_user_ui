@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import AdminAdd from '@/components/Admin/AdminAdd.vue'
 import AdminList from '@/components/Admin/AdminList.vue'
+import RoleList from '@/components/Role/RoleList.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,14 @@ export default new Router({
           component: AdminList,
           meta:{
               title:'用户列表' // 标题设置在这里
+          }
+      },
+      {
+          path: '/RoleList',
+          name: 'RoleList',
+          component: RoleList,
+          meta:{
+              title:'角色列表' // 标题设置在这里
           }
       }
 

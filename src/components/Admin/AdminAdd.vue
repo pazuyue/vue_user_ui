@@ -7,7 +7,7 @@
                 <el-col :span="24" style="margin-top: 15px;">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                        <el-breadcrumb-item>工作台</el-breadcrumb-item>
+                        <el-breadcrumb-item :to="{ path: '/AdminList' }">工作台</el-breadcrumb-item>
                         <el-breadcrumb-item>添加用户</el-breadcrumb-item>
                     </el-breadcrumb>
                 </el-col>

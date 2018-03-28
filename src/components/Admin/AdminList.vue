@@ -5,16 +5,22 @@
                 <el-col :span="24" style="margin-top: 15px;">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                        <el-breadcrumb-item>工作台</el-breadcrumb-item>
+                        <el-breadcrumb-item :to="{ path: '/AdminList' }">工作台</el-breadcrumb-item>
                         <el-breadcrumb-item>用户列表</el-breadcrumb-item>
                     </el-breadcrumb>
                 </el-col>
             </el-row>
+
+
         </el-header>
         <el-main>
-
+            <el-row>
+                <el-col :span="2"  :offset="20" style="margin-top: 15px;">
+                    <router-link to="/AdminAdd"><el-button type="primary" round >添加用户</el-button></router-link>
+                </el-col>
+            </el-row>
             <el-table
-                    :data="tableData5"
+                    :data="userList"
                     style="width: 100%">
                 <el-table-column type="expand">
                     <template slot-scope="props">
@@ -81,7 +87,7 @@
                     :visible.sync="dialogVisible"
                     width="30%"
                     :before-close="handleClose">
-                <span>这是一段信息</span>
+                <span>是否确认删除改用户</span>
                 <span slot="footer" class="dialog-footer">
                                 <el-button @click="dialogVisible = false">取 消</el-button>
                                 <el-button type="primary" @click="handleDelete()">确 定</el-button>
@@ -107,7 +113,7 @@
         },
         data() {
             return {
-                tableData5: [{
+                userList: [{
                     id: '12987122',
                     name: '好滋好味鸡蛋仔',
                     role: '管理员',
