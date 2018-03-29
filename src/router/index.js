@@ -6,6 +6,7 @@ import AdminList from '@/components/Admin/AdminList.vue'
 import RoleList from '@/components/Role/RoleList.vue'
 import RoleAdd from '@/components/Role/RoleAdd.vue'
 import PermissionList from '@/components/permissions/PermissionList.vue'
+import PermissionAdd from '@/components/permissions/PermissionAdd.vue'
 
 Vue.use(Router)
 
@@ -57,6 +58,14 @@ export default new Router({
           component: PermissionList,
           meta:{
               title:'权限列表' // 标题设置在这里
+          }
+      },
+      {
+          path: '/PermissionAdd',
+          name: 'PermissionAdd',
+          component: PermissionAdd,
+          meta:{
+              title:'权限添加' // 标题设置在这里
           }
       }
 

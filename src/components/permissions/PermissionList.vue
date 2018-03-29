@@ -5,7 +5,7 @@
         <el-col :span="24" style="margin-top: 15px;">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/PremissionList' }">工作台</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/PermissionList' }">工作台</el-breadcrumb-item>
                 <el-breadcrumb-item>权限列表</el-breadcrumb-item>
             </el-breadcrumb>
         </el-col>
@@ -14,13 +14,18 @@
 
 </el-header>
     <el-main>
+        <el-row>
+            <el-col :span="4"  :offset="20" style="margin-top: 15px;">
+                <router-link to="/PermissionAdd"><el-button type="primary" round >添加权限</el-button></router-link>
+            </el-col>
+            <el-col :span="24"  style="margin-top: 15px;">
 
-        <el-tree
-                :props="premission"
-                :load="loadNode"
-                lazy
-                @check-change="handleCheckChange"
-                :expand-on-click-node="false">
+                <el-tree
+                        :props="premission"
+                        :load="loadNode"
+                        lazy
+                        @check-change="handleCheckChange"
+                        :expand-on-click-node="false">
 
             <span class="custom-tree-node" slot-scope="{ node, data }">
         <span>{{ node.label }}</span>
@@ -47,7 +52,12 @@
 
         </span>
       </span>
-        </el-tree>
+                </el-tree>
+
+            </el-col>
+        </el-row>
+
+
 
     </el-main>
     </el-container>
