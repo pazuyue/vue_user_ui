@@ -15,6 +15,11 @@
 </el-header>
     <el-main>
 
+        <el-row>
+            <el-col :span="2"  :offset="20" style="margin-top: 15px;">
+                <router-link to="/RoleAdd"><el-button type="primary" round >添加角色</el-button></router-link>
+            </el-col>
+        </el-row>
         <el-table
                 :data="role_list"
                 style="width: 100%">
@@ -64,6 +69,11 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="dialogFormVisible = true">
+                        编辑
+                    </el-button>
 
                     <el-button type="danger" size="mini" @click="open_DialogVisible(scope.$index, scope.row)">删除</el-button>
                 </template>

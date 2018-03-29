@@ -69,8 +69,6 @@
                             编辑
                         </el-button>
 
-
-
                         <el-button type="danger" size="mini" @click="open_DialogVisible(scope.$index, scope.row)">删除</el-button>
 
 

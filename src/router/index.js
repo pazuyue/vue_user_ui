@@ -4,6 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 import AdminAdd from '@/components/Admin/AdminAdd.vue'
 import AdminList from '@/components/Admin/AdminList.vue'
 import RoleList from '@/components/Role/RoleList.vue'
+import RoleAdd from '@/components/Role/RoleAdd.vue'
+
 
 Vue.use(Router)
 
@@ -40,7 +42,17 @@ export default new Router({
           meta:{
               title:'角色列表' // 标题设置在这里
           }
+      },
+      {
+          path: '/RoleAdd',
+          name: 'RoleAdd',
+          component: RoleAdd,
+          meta:{
+              title:'添加角色' // 标题设置在这里
+          }
       }
+
+
 
   ]
 })
