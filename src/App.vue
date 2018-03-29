@@ -13,6 +13,7 @@
         <template slot="title">我的工作台</template>
         <router-link to="/AdminList"><el-menu-item index="2-1">用户列表</el-menu-item></router-link>
         <router-link to="/RoleList"><el-menu-item index="2-3">角色列表</el-menu-item></router-link>
+        <router-link to="/PermissionList"><el-menu-item index="2-4">权限列表</el-menu-item></router-link>
       </el-submenu>
 
     </el-menu>
