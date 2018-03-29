@@ -80,6 +80,9 @@
             </el-table-column>
         </el-table>
 
+        <el-dialog title="用户编辑" :visible.sync="dialogFormVisible">
+            <RoleEdit></RoleEdit>
+        </el-dialog>
 
         <el-dialog
                 title="提示"
@@ -101,11 +104,13 @@
 <script>
     import '@/assets/css/AdminList.css'
     /*引入公共样式*/
-
+    import RoleEdit from './RoleEdit.vue'
 
     export default {
         name: 'RoleList',
-
+        components: {
+            RoleEdit
+        },
         data() {
             return {
                 role_list: [{

@@ -56,7 +56,7 @@
     import '@/assets/css/AdminAdd.css'/*引入公共样式*/
     export default {
 
-        name: 'RoleAdd',
+        name: 'RoleEdit',
         data() {
             var validate = (rule, value, callback) => {
                 if (value === '') {

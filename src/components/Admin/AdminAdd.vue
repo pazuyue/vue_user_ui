@@ -131,7 +131,6 @@
                 }
                 return isJPG && isLt2M;
             },
-
         },
     }
 </script>
