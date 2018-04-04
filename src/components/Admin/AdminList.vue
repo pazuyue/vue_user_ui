@@ -43,7 +43,7 @@
                             <el-form-item label="修改时间">
                                 <span>{{ props.row.update_time }}</span>
                             </el-form-item>
-                            <el-form-item label="商品描述">
+                            <el-form-item label="描述">
                                 <span>{{ props.row.desc }}</span>
                             </el-form-item>
                         </el-form>
@@ -111,51 +111,45 @@
         },
         data() {
             return {
-                userList: [{
-                    id: '12987122',
-                    name: '好滋好味鸡蛋仔',
-                    role: '管理员',
-                    email: '284934551@qq.com',
-                    creat_time: '2018-03-28 16:59:00',
-                    update_time: '2018-03-28 16:59:00',
-                    desc: '荷兰优质淡奶，奶香浓而不腻',
-                }, {
-                    id: '12987123',
-                    name: '好滋好味鸡蛋仔2',
-                    role: '管理员',
-                    email: '284934551@qq.com',
-                    creat_time: '2018-03-28 16:59:00',
-                    update_time: '2018-03-28 16:59:00',
-                    desc: '荷兰优质淡奶，奶香浓而不腻',
-                }, {
-                    id: '12987125',
-                    name: '好滋好味鸡蛋仔3',
-                    role: '管理员',
-                    email: '284934551@qq.com',
-                    creat_time: '2018-03-28 16:59:00',
-                    update_time: '2018-03-28 16:59:00',
-                    desc: '荷兰优质淡奶，奶香浓而不腻',
-                }, {
-                    id: '12987126',
-                    name: '好滋好味鸡蛋仔4',
-                    role: '管理员',
-                    email: '284934551@qq.com',
-                    creat_time: '2018-03-28 16:59:00',
-                    update_time: '2018-03-28 16:59:00',
-                    desc: '荷兰优质淡奶，奶香浓而不腻',
-                }],
+                userList: [],
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
                 dialogVisible: false,
                 user_id:'',
             }
         },
+        mounted:function(){
+            this.userdata();
+
+        },
         methods: {
+            userdata(){
+                this.$ajax({
+                    method: 'get',
+                    url: 'http://www.zy.com/api/auth/userList',
+                }).then(response => {
+                    var data =response.data
+                    for (var i=0;i<data.length;i++)
+                    {
+                        this.userList.push({
+                            'id':data[i].id,
+                            'name':data[i].name,
+                            'role':"管理员",
+                            'email':data[i].email,
+                            'creat_time':data[i].created_at,
+                            'update_time':data[i].updated_at,
+                            'desc':data[i].portrait
+                        })
+
+                    }
+                });
+            },
             handleEdit(index, row) {
-                console.log(index, row);
+                console.log(index,row);
             },
             handleDelete() {
                 console.log(this.user_id);
+
             },
             open_DialogVisible(index, row){
                 this.dialogVisible=true
@@ -168,7 +162,7 @@
                     })
                     .catch(_ => {
                     });
-            }
+            },
         }
     }
 </script>

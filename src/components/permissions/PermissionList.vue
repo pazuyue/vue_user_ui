@@ -31,7 +31,7 @@
         <span>{{ node.label }}</span>
         <span>
 
-              <el-button
+             &nbsp; <el-button
                       type="text"
                       size="mini"
                       @click="">
@@ -43,7 +43,8 @@
                     @click="">
             修改
           </el-button>&nbsp;
-            <el-button
+
+            <el-button v-if="node.level!=1"
                     type="text"
                     size="mini"
                     @click="">
