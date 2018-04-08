@@ -21,7 +21,8 @@
             </el-row>
             <el-table
                     :data="userList"
-                    style="width: 100%">
+                    style="width: 100%"
+                    v-loading="loading">
                 <el-table-column type="expand">
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
@@ -116,6 +117,7 @@
                 formLabelWidth: '120px',
                 dialogVisible: false,
                 user_id:'',
+                loading: false
             }
         },
         mounted:function(){
@@ -124,9 +126,11 @@
         },
         methods: {
             userdata(){
+                this.loading=true
+                this.userList=[]
                 this.$ajax({
                     method: 'get',
-                    url: 'http://www.zy.com/api/auth/userList',
+                    url: '/api/api/auth/userList',
                 }).then(response => {
                     var data =response.data
                     for (var i=0;i<data.length;i++)
@@ -140,8 +144,8 @@
                             'update_time':data[i].updated_at,
                             'desc':data[i].portrait
                         })
-
                     }
+                    this.loading=false
                 });
             },
             handleEdit(index, row) {
@@ -149,7 +153,17 @@
             },
             handleDelete() {
                 console.log(this.user_id);
-
+                this.$ajax({
+                    method: 'get',
+                    url: '/api/api/auth/userDel?userid='+this.user_id,
+                }).then(res=> {
+                    this.$message.success("删除成功！");
+                }).catch(error => {
+                    console.log(error);
+                    this.$message.error(error);
+                });
+                this.dialogVisible = false
+                this.userdata()
             },
             open_DialogVisible(index, row){
                 this.dialogVisible=true
