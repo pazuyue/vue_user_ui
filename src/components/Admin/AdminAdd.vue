@@ -33,19 +33,16 @@
                             <el-input type="password" v-model="form.password_confirmation" auto-complete="off"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="创建时间">
-                            <el-col :span="12">
-                                <el-date-picker type="date" placeholder="选择日期" v-model="form.creat_date" style="width: 100%;"></el-date-picker>
-                            </el-col>
-                        </el-form-item>
+
                         <el-form-item label="头像上传">
                             <el-col :span="12">
                                 <el-upload
                                         class="avatar-uploader"
-                                        action="http://localhost/vue/phpfunction/upload.php"
+                                        action="/api/api/auth/userFile"
                                         :show-file-list="false"
                                         :on-success="handleAvatarSuccess"
-                                        :before-upload="beforeAvatarUpload">
+                                        :before-upload="beforeAvatarUpload"
+                                        :data="upLoadData">
                                     <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                 </el-upload>
@@ -118,9 +115,11 @@
                     email:'',
                     password:'',
                     password_confirmation:'',
-                    creat_date: '',
                     imageUrl:'',
                     desc:'',
+                },
+                upLoadData:{
+                    fileNmae:new  Date().getTime(),
                 },
                 rules2: {
                     password: [
@@ -138,9 +137,7 @@
                 }
             }
         },
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -153,8 +150,8 @@
                             creat_date: this.form.creat_date,
                             imageUrl: this.form.imageUrl,
                             desc: this.form.desc,
-                        }).then(function (res) {
-                            console.log(res.data)
+                        }).then(res=> {
+                            this.$message.success("添加成功！");
                         }).catch(error => {
 
                             if(typeof(error.response.data.errors.email) !="undefined"){
@@ -174,6 +171,7 @@
                 });
             },
             handleAvatarSuccess(res, file) {
+                console.log(res);
                 if(res.code==1){
                     this.form.imageUrl = URL.createObjectURL(file.raw);
                 }else {
