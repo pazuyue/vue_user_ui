@@ -66,19 +66,16 @@
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
-                                @click="dialogFormVisible = true">
+                                @click="handleEdit(scope.$index, scope.row)">
                             编辑
                         </el-button>
-
                         <el-button type="danger" size="mini" @click="open_DialogVisible(scope.$index, scope.row)">删除</el-button>
-
-
                     </template>
                 </el-table-column>
             </el-table>
 
             <el-dialog title="用户编辑" :visible.sync="dialogFormVisible">
-                <AdminEdit></AdminEdit>
+                <AdminEdit  v-bind:user_id="user_id"></AdminEdit>
             </el-dialog>
 
             <el-dialog
@@ -149,10 +146,10 @@
                 });
             },
             handleEdit(index, row) {
-                console.log(index,row);
+                this.user_id=row.id
+                this.dialogFormVisible = true
             },
             handleDelete() {
-                console.log(this.user_id);
                 this.$ajax({
                     method: 'get',
                     url: '/api/api/auth/userDel?userid='+this.user_id,
