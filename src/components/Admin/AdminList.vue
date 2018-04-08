@@ -86,7 +86,7 @@
                     :visible.sync="dialogVisible"
                     width="30%"
                     :before-close="handleClose">
-                <span>是否确认删除改用户</span>
+                <span>是否确认冻结改用户</span>
                 <span slot="footer" class="dialog-footer">
                                 <el-button @click="dialogVisible = false">取 消</el-button>
                                 <el-button type="primary" @click="handleDelete()">确 定</el-button>
@@ -157,7 +157,7 @@
                     method: 'get',
                     url: '/api/api/auth/userDel?userid='+this.user_id,
                 }).then(res=> {
-                    this.$message.success("删除成功！");
+                    this.$message.success("冻结成功！");
                 }).catch(error => {
                     console.log(error);
                     this.$message.error(error);
