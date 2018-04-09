@@ -33,22 +33,6 @@
                             <el-input type="password" v-model="form.password_confirmation" auto-complete="off"></el-input>
                         </el-form-item>
 
-
-                        <el-form-item label="头像上传">
-                            <el-col :span="12">
-                                <el-upload
-                                        class="avatar-uploader"
-                                        action="/api/api/auth/userFile"
-                                        :show-file-list="false"
-                                        :on-success="handleAvatarSuccess"
-                                        :before-upload="beforeAvatarUpload"
-                                        :data="upLoadData">
-                                    <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
-                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                </el-upload>
-                            </el-col>
-                        </el-form-item>
-
                         <el-form-item label="用户简介" prop="desc">
                             <el-input
                                     type="textarea"
@@ -118,9 +102,7 @@
                     imageUrl:'',
                     desc:'',
                 },
-                upLoadData:{
-                    fileNmae:new  Date().getTime(),
-                },
+
                 rules2: {
                     password: [
                         { validator: validatePass, trigger: 'blur' }
@@ -147,8 +129,6 @@
                             email:this.form.email,
                             password: this.form.password,
                             password_confirmation: this.form.password_confirmation,
-                            creat_date: this.form.creat_date,
-                            imageUrl: this.form.imageUrl,
                             desc: this.form.desc,
                         }).then(res=> {
                             this.$message.success("添加成功！");
@@ -171,26 +151,7 @@
                     }
                 });
             },
-            handleAvatarSuccess(res, file) {
-                console.log(res);
-                if(res.code==1){
-                    this.form.imageUrl = URL.createObjectURL(file.raw);
-                }else {
-                    this.$message.error('上传失败!');
-                }
-            },
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
 
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
-            },
         },
     }
 </script>
