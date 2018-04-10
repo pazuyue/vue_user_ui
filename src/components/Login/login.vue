@@ -1,7 +1,7 @@
 <template>
     <el-container>
-
-            <el-col :span="24" style="margin-top: 15px;">
+        <el-col :span="4"><img src="../../assets/logo.png"></el-col>
+            <el-col :span="20" style="margin-top: 15px;">
                 <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="邮箱" prop="email">
                         <el-input v-model.string="ruleForm2.email"></el-input>

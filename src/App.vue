@@ -17,8 +17,8 @@
         <router-link to="/PermissionList"><el-menu-item index="2-4">权限列表</el-menu-item></router-link>
       </el-submenu>
       <el-menu-item index="3">注销</el-menu-item>
-
     </el-menu>
+
     <router-view v-wechat-title='$route.meta.title' message="月光" v-on:child-say="Active"></router-view>
   </div>
 </template>
