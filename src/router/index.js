@@ -7,13 +7,21 @@ import RoleList from '@/components/Role/RoleList.vue'
 import RoleAdd from '@/components/Role/RoleAdd.vue'
 import PermissionList from '@/components/permissions/PermissionList.vue'
 import PermissionAdd from '@/components/permissions/PermissionAdd.vue'
-
+import Login from '@/components/Login/Login.vue'
 Vue.use(Router)
 
 export default new Router({
   routes: [
       {
-        path: '/',
+          path: '/',
+          name: 'Login',
+          component: Login,
+          meta:{
+              title:'登陆' // 标题设置在这里
+          }
+      },
+      {
+        path: '/home',
         name: 'HelloWorld',
         component: HelloWorld,
           meta:{
