@@ -41,6 +41,7 @@ export default new Router({
           name: 'AdminList',
           component: AdminList,
           meta:{
+              requiresAuth: true,
               title:'用户列表' // 标题设置在这里
           }
       },
@@ -49,6 +50,7 @@ export default new Router({
           name: 'RoleList',
           component: RoleList,
           meta:{
+              requiresAuth: true,
               title:'角色列表' // 标题设置在这里
           }
       },
@@ -57,6 +59,7 @@ export default new Router({
           name: 'RoleAdd',
           component: RoleAdd,
           meta:{
+              requiresAuth: true,
               title:'添加角色' // 标题设置在这里
           }
       },
@@ -65,6 +68,7 @@ export default new Router({
           name: 'PermissionList',
           component: PermissionList,
           meta:{
+              requiresAuth: true,
               title:'权限列表' // 标题设置在这里
           }
       },
@@ -73,6 +77,7 @@ export default new Router({
           name: 'PermissionAdd',
           component: PermissionAdd,
           meta:{
+              requiresAuth: true,
               title:'权限添加' // 标题设置在这里
           }
       }
