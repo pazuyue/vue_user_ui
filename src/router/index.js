@@ -8,6 +8,8 @@ import RoleAdd from '@/components/Role/RoleAdd.vue'
 import PermissionList from '@/components/permissions/PermissionList.vue'
 import PermissionAdd from '@/components/permissions/PermissionAdd.vue'
 import Login from '@/components/Login/Login.vue'
+import ColumnManagement from '@/components/ColumnManagement/ColumnManagement.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -79,6 +81,15 @@ export default new Router({
           meta:{
               requiresAuth: true,
               title:'权限添加' // 标题设置在这里
+          }
+      },
+      {
+          path: '/ColumnManagement',
+          name: 'ColumnManagement',
+          component: ColumnManagement,
+          meta:{
+              requiresAuth: true,
+              title:'栏目管理' // 标题设置在这里
           }
       }
 

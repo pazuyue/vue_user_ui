@@ -11,15 +11,20 @@
             v-bind:class="{ active: isActive }">
       <el-menu-item index="1"><router-link to="/">Home</router-link></el-menu-item>
       <el-submenu index="2">
-        <template slot="title">我的工作台</template>
+        <template slot="title">系统中心</template>
         <router-link to="/AdminList"><el-menu-item index="2-1">用户列表</el-menu-item></router-link>
-        <router-link to="/RoleList"><el-menu-item index="2-3">角色列表</el-menu-item></router-link>
-        <router-link to="/PermissionList"><el-menu-item index="2-4">权限列表</el-menu-item></router-link>
+       <!-- <router-link to="/RoleList"><el-menu-item index="2-3">角色列表</el-menu-item></router-link>
+        <router-link to="/PermissionList"><el-menu-item index="2-4">权限列表</el-menu-item></router-link>-->
       </el-submenu>
-      <el-menu-item index="3">注销</el-menu-item>
+      <el-submenu index="3">
+        <template slot="title">我的工作台</template>
+        <router-link to="/ColumnManagement"><el-menu-item index="3-1">栏目管理</el-menu-item></router-link>
+      </el-submenu>
+
+      <el-menu-item index="9">注销</el-menu-item>
     </el-menu>
 
-    <router-view v-wechat-title='$route.meta.title' message="月光" v-on:child-say="Active"></router-view>
+    <router-view v-wechat-title='$route.meta.title' message="月光后台" v-on:child-say="Active"></router-view>
   </div>
 </template>
 <style>
@@ -39,7 +44,7 @@ export default {
     },
     methods: {
         handleSelect(key, keyPath) {
-            if(key==3){
+            if(key==9){
                 delCookie('username')
                 this.$message.success("注销成功！");
                 setTimeout(function(){
