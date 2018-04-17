@@ -46,9 +46,6 @@
                             <el-col :xs="12" :sm="6" :md="4" :lg="3" :xl="1">
                                 <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
                             </el-col>
-                            <el-col :xs="12" :sm="6" :md="4" :lg="3" :xl="1">
-                                <el-button>取消</el-button>
-                            </el-col>
                         </el-form-item>
                     </el-form>
                 </el-col>
