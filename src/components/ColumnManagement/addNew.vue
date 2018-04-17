@@ -43,12 +43,7 @@
 
 
                         <el-form-item label="用户简介" prop="desc">
-                            <el-input
-                                    type="textarea"
-                                    :autosize="{ minRows: 2, maxRows: 4}"
-                                    placeholder="请输入内容"
-                                    v-model="form.desc">
-                            </el-input>
+                            <div id="editorElem" style="text-align:left"></div>
                         </el-form-item>
 
                         <el-form-item>
@@ -65,6 +60,7 @@
 </template>
 
 <script>
+    import E from 'wangeditor'
     export default {
 
         name: 'addNew',
@@ -83,7 +79,9 @@
                     imageUrl:'',
                     desc:'',
                 },
-
+                upLoadData:{
+                    fileName:this.new_id,
+                },
                 rules2: {
                     title: [
                         { validator: validate, trigger: 'blur' }
@@ -92,7 +90,13 @@
                 }
             }
         },
-
+        mounted() {
+            var editor = new E('#editorElem')
+            editor.customConfig.onchange = (html) => {
+                this.editorContent = html
+            }
+            editor.create()
+        },
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -113,7 +117,27 @@
                     }
                 });
             },
+            handleAvatarSuccess(res, file) {
+                console.log(res)
+                if(res.code==1){
+                    this.form.imageUrl = URL.createObjectURL(file.raw);
+                    this.form.trueImgUrl =res.photo
+                }else {
+                    this.$message.error('上传失败!');
+                }
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
 
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
         },
     }
 </script>
