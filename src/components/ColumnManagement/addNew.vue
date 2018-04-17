@@ -6,9 +6,9 @@
             <el-row>
                 <el-col :span="24" style="margin-top: 15px;">
                     <el-breadcrumb separator="/">
-                        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                        <el-breadcrumb-item :to="{ path: '/AdminList' }">系统中心</el-breadcrumb-item>
-                        <el-breadcrumb-item>添加用户</el-breadcrumb-item>
+                        <el-breadcrumb-item>首页</el-breadcrumb-item>
+                        <el-breadcrumb-item>工作台</el-breadcrumb-item>
+                        <el-breadcrumb-item>新闻添加</el-breadcrumb-item>
                     </el-breadcrumb>
                 </el-col>
             </el-row>
@@ -155,4 +155,3 @@
         },
     }
 </script>
-

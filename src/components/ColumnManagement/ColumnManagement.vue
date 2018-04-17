@@ -45,7 +45,7 @@
                 </el-menu>
             </el-col>
             <el-col :span="18">
-                <menuView  v-bind:user_id="2" v-if="menuViewID==1"></menuView>
+                <addNewView  v-bind:user_id="2" v-if="menuViewID==2.2"></addNewView>
             </el-col>
         </el-row>
 
@@ -61,13 +61,13 @@
     }
 </style>
 <script>
-    import menuView from '../Admin/AdminEdit.vue'
+    import addNewView from './addNew.vue'
     /*引入公共样式*/
 
     export default {
         name: 'ColumnManagement',
         components: {
-            menuView
+            addNewView
         },
         data() {
             return {
@@ -84,19 +84,22 @@
                 console.log(key, keyPath);
             },
             handselect(key, keyPath) {
-                if(key==1){
+                if(key=='1'){
                     if(this.isCollapse){
                         this.isCollapse=false
                     }else {
                         this.isCollapse=true
                     }
                 }
-                else if(key==3){
+                else if(key=='2-2'){
+                    this.menuViewID=2.2
+                }
+                else if(key=='3'){
                     this.menuViewID=1
                 }else{
                     this.menuViewID=""
                 }
-                console.log(key);
+
             }
 
         }
