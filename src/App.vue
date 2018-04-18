@@ -42,7 +42,15 @@ export default {
             isActive: false
         };
     },
+    mounted() {
+     this.routeUrl()
+    },
     methods: {
+        routeUrl(){
+            if(this.$route.fullPath=="/ColumnManagement"){
+               this.activeIndex='3-1'
+            }
+                },
         handleSelect(key, keyPath) {
             if(key==9){
                 delCookie('username')

@@ -26,7 +26,7 @@
                             <el-input v-model="form.email"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="图片上传">
+                        <el-form-item label="图片上传" v-if="isCollapse">
                             <el-col :span="12">
                                 <el-upload
                                         class="avatar-uploader"
@@ -79,6 +79,7 @@
                     imageUrl:'',
                     desc:'',
                 },
+                isCollapse:false,
                 upLoadData:{
                     fileName:this.new_id,
                 },
@@ -95,9 +96,11 @@
             editor.customConfig.onchange = (html) => {
                 this.editorContent = html
             }
+
             editor.create()
         },
         methods: {
+
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
