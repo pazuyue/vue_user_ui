@@ -25,6 +25,7 @@
     </el-menu>
 
     <router-view v-wechat-title='$route.meta.title' message="月光后台" v-on:child-say="Active"></router-view>
+
   </div>
 </template>
 <style>
