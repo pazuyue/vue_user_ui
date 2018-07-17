@@ -29,7 +29,6 @@
                             <span>资讯管理</span>
                         </template>
                         <el-menu-item-group>
-                            <template slot="title">资讯栏目</template>
                             <el-menu-item index="2-1">资讯列表</el-menu-item>
                             <el-menu-item index="2-2">添加新闻</el-menu-item>
                         </el-menu-item-group>
