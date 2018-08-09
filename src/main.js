@@ -8,12 +8,18 @@ import router from './router'
 import VueWechatTitle from 'vue-wechat-title'
 import axios from 'axios'
 
+import  VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 
 
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueWechatTitle)
+Vue.use(VueQuillEditor)
 
 
 Vue.prototype.$ajax = axios

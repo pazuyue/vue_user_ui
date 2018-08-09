@@ -30,7 +30,7 @@
                             <el-col :span="12">
                                 <el-upload
                                         class="avatar-uploader"
-                                        action="/api/api/xxxx/xxxxx"
+                                        :action="serverUrl"
                                         :show-file-list="false"
                                         :on-success="handleAvatarSuccess"
                                         :before-upload="beforeAvatarUpload"
@@ -42,11 +42,28 @@
                         </el-form-item>
 
 
-                        <el-form-item label="用户简介" prop="desc">
-                            <div id="editorElem" style="text-align:left"></div>
+                        <el-form-item label="咨询内容" prop="desc">
+                            <!-- 图片上传组件辅助-->
+                            <el-upload
+                                    class="avatar-uploader-quill-editor"
+                                    :action="serverUrl"
+                                    name="file"
+                                    :show-file-list="false"
+                                    :on-success="uploadSuccess"
+                                    :on-error="uploadError"
+                                    :before-upload="beforeUpload">
+                            </el-upload>
+                            <quill-editor
+                                    v-model="detailContent"
+                                    ref="myQuillEditor"
+                                    :options="editorOption"
+                                    style="height: 250px"
+
+                            >
+                            </quill-editor>
                         </el-form-item>
 
-                        <el-form-item>
+                        <el-form-item style="margin-top: 140px;">
                             <el-col :xs="12" :sm="6" :md="4" :lg="3" :xl="1">
                                 <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
                             </el-col>
@@ -60,7 +77,31 @@
 </template>
 
 <script>
-    import E from 'wangeditor'
+
+    import { quillEditor } from 'vue-quill-editor'
+
+    // 工具栏配置
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{'header': 1}, {'header': 2}],               // custom button values
+        [{'list': 'ordered'}, {'list': 'bullet'}],
+        [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+        [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+        [{'direction': 'rtl'}],                         // text direction
+
+        [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+        [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+        [{'font': []}],
+        [{'align': []}],
+        ['link', 'image', 'video'],
+        ['clean']                                         // remove formatting button
+    ]
+
+
     export default {
 
         name: 'addNew',
@@ -74,12 +115,35 @@
                 }
             };
             return {
+                quillUpdateImg: false, // 根据图片上传状态来确定是否显示loading动画，刚开始是false,不显示
+                serverUrl: '/api/api/file/pustFile',  // 这里写你要上传的图片服务器地址
+                //header: {token: sessionStorage.token},  // 有的图片服务器要求请求头需要有token之类的参数，写在这里
+                detailContent: '', // 富文本内容
+                editorOption: {
+
+                    placeholder: '',
+                    theme: 'snow',  // or 'bubble'
+                    modules: {
+                        toolbar: {
+                            container: toolbarOptions,  // 工具栏
+                            handlers: {
+                                'image': function (value) {
+                                    if (value) {
+                                        document.querySelector('.avatar-uploader-quill-editor input').click()
+                                    } else {
+                                        this.quill.format('image', false);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },  // 富文本编辑器配置
                 form: {
                     title: '',
                     imageUrl:'',
                     desc:'',
                 },
-                isCollapse:false,
+                isCollapse:true,
                 upLoadData:{
                     fileName:this.new_id,
                 },
@@ -92,14 +156,40 @@
             }
         },
         mounted() {
-            var editor = new E('#editorElem')
-            editor.customConfig.onchange = (html) => {
-                this.editorContent = html
-            }
 
-            editor.create()
         },
         methods: {
+            // 上传图片前
+            beforeUpload() {
+                // 显示loading动画
+                this.quillUpdateImg = true
+            },
+            // 上传图片成功
+            uploadSuccess(res, file) {
+                // res为图片服务器返回的数据
+                // 获取富文本组件实例
+                let quill = this.$refs.myQuillEditor.quill
+                // 如果上传成功
+
+                if (res.code === 1 && res.photo !== null) {
+                    // 获取光标所在位置
+                    let length = quill.getSelection().index;
+                    // 插入图片  res.info为服务器返回的图片地址
+
+                    quill.insertEmbed(length, 'image',"http://www.zy.com/"+res.photo)
+                    // 调整光标到最后
+                    quill.setSelection(length + 1)
+                } else {
+                    this.$message.error('图片插入失败')
+                }
+                // loading动画消失
+                this.quillUpdateImg = false
+            },
+            // 上传图片失败
+            uploadError(res, file) {
+                this.quillUpdateImg = false
+                this.$message.error('图片插入失败')
+            },
 
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -141,6 +231,7 @@
                 }
                 return isJPG && isLt2M;
             },
+
         },
     }
 </script>

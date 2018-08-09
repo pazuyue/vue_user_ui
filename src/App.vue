@@ -34,16 +34,19 @@
   }
 </style>
 <script>
-    import {delCookie} from './assets/js/cookie.js'
+    import {delCookie,setCookie,getCookie} from './assets/js/cookie.js'
 export default {
   name: 'App',
     data() {
         return {
             activeIndex: '1',
-            isActive: false
+            isActive: true
         };
     },
     mounted() {
+      if(getCookie('username')!=""){
+          this.isActive=false
+      }
      this.routeUrl()
     },
     methods: {
@@ -62,10 +65,9 @@ export default {
             }
         },
         Active(data){
-            console.log(data)
            this.isActive=data
         }
-    }
+    },
 }
 </script>
 

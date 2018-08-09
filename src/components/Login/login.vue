@@ -92,7 +92,7 @@
 
                                 this.$message.success("登陆成功！");
                                 this.$emit('child-say',false);
-                                setCookie('username',this.username,1000*60)
+                                setCookie('username',this.ruleForm2.email,1000*60)
                                 setTimeout(function(){
                                     this.loading= false,
                                     this.$router.push('/home')
