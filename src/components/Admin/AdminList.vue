@@ -98,8 +98,8 @@
 
 
 <script>
-    import '@/assets/css/AdminList.css'
     /*引入公共样式*/
+    import '@/assets/css/AdminList.css'
     import AdminEdit from './AdminEdit.vue'
 
     export default {

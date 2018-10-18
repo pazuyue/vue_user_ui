@@ -2,17 +2,15 @@
 
     <el-container>
         <el-header>
-
             <el-row>
                 <el-col :span="24" style="margin-top: 15px;">
                     <el-breadcrumb separator="/">
-                        <el-breadcrumb-item>首页</el-breadcrumb-item>
-                        <el-breadcrumb-item>工作台</el-breadcrumb-item>
-                        <el-breadcrumb-item>资讯添加</el-breadcrumb-item>
+                        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                        <el-breadcrumb-item :to="{ path: '/ColumnManagement' }">栏目管理</el-breadcrumb-item>
+                        <el-breadcrumb-item>咨询类目</el-breadcrumb-item>
                     </el-breadcrumb>
                 </el-col>
             </el-row>
-
         </el-header>
         <el-main>
 
@@ -74,7 +72,7 @@
 
                         <el-form-item style="margin-top: 140px;">
                             <el-col :xs="12" :sm="6" :md="4" :lg="3" :xl="1">
-                                <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+                                <el-button type="primary" @click="onSubmit('form')">修改</el-button>
                             </el-col>
                         </el-form-item>
                     </el-form>
@@ -113,7 +111,8 @@
 
     export default {
 
-        name: 'addNew',
+        name: 'NewEdit',
+        props: ['new_id'],
         data() {
 
             var validate = (rule, value, callback) => {
@@ -124,6 +123,7 @@
                 }
             };
             return {
+                loading:false,
                 quillUpdateImg: false, // 根据图片上传状态来确定是否显示loading动画，刚开始是false,不显示
                 serverUrl: '/api/api/file/pustFile',  // 这里写你要上传的图片服务器地址
                 //header: {token: sessionStorage.token},  // 有的图片服务器要求请求头需要有token之类的参数，写在这里
@@ -166,9 +166,35 @@
                 }
             }
         },
-        mounted() {
+        watch:{
+            new_id(){
+                this.newdata()
+            }
+        },
+        mounted: function() {
+            this.newdata()
         },
         methods: {
+            newdata(){
+                this.loading=true
+                this.$ajax({
+                    method: 'get',
+                    url: '/api/api/news/newEdit?new_id='+this.new_id,
+                }).then(response => {
+                    var data =response.data
+                    console.log(data.data);
+                    this.form.title=data.data.title
+                    this.form.article_id=data.data.article_id
+                    this.form.imageUrl='/api/'+data.data.imageUrl
+                    this.form.content=data.data.content
+
+                    if(data.data.imageUrl != "" || data.data.imageUrl != null || data.data.imageUrl != undefined){
+                        this.is_open=true;
+                    }
+                    this.loading=false
+                });
+            },
+
             // 上传图片前
             beforeUpload() {
                 // 显示loading动画
@@ -208,19 +234,19 @@
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('/api/api/news/saveNew',{
+                        this.$ajax.post('/api/api/news/newEdit',{
                             title:this.form.title,
                             article_id: this.form.article_id,
                             imageUrl: this.form.imageUrl,
                             content_info: this.form.content,
                         }).then(res=> {
-                            this.$message.success("添加成功！");
+                            this.$message.success("修改成功！");
                         }).catch(error => {
 
-                            this.$message.error("添加失败");
+                            this.$message.error("修改失败");
                         });
                     } else {
-                        this.$message.error("添加失败");
+                        this.$message.error("修改失败");
                         return false;
                     }
                 });

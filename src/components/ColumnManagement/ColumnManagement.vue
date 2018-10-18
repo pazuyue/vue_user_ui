@@ -2,7 +2,7 @@
 
         <el-row class="tac">
 
-            <el-col :span="6">
+            <el-col :span="4">
                 <el-menu
                         default-active="2"
                         class="el-menu-vertical-demo"
@@ -29,8 +29,8 @@
                             <span>资讯管理</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1">资讯列表</el-menu-item>
-                            <el-menu-item index="2-2">添加新闻</el-menu-item>
+                            <el-menu-item index="2-1">资讯栏目</el-menu-item>
+                            <el-menu-item index="2-2">资讯添加</el-menu-item>
                         </el-menu-item-group>
                         <!--<el-submenu index="1-3">
                             <template slot="title">友情链接</template>
@@ -43,7 +43,8 @@
                     </el-menu-item>
                 </el-menu>
             </el-col>
-            <el-col :span="18">
+            <el-col :span="20">
+                <listNewView  v-bind:user_id="2" v-if="menuViewID==2.1"></listNewView>
                 <addNewView  v-bind:user_id="2" v-if="menuViewID==2.2"></addNewView>
             </el-col>
         </el-row>
@@ -61,12 +62,14 @@
 </style>
 <script>
     import addNewView from './addNew.vue'
+    import listNewView from './newList.vue'
     /*引入公共样式*/
 
     export default {
         name: 'ColumnManagement',
         components: {
-            addNewView
+            addNewView,
+            listNewView
         },
         data() {
             return {
@@ -89,6 +92,9 @@
                     }else {
                         this.isCollapse=true
                     }
+                }
+                else if(key=='2-1'){
+                    this.menuViewID=2.1
                 }
                 else if(key=='2-2'){
                     this.menuViewID=2.2
