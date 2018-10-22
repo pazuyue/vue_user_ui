@@ -235,9 +235,10 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$ajax.post('/api/api/news/newEdit',{
+                            new_id:this.new_id,
                             title:this.form.title,
                             article_id: this.form.article_id,
-                            imageUrl: this.form.imageUrl,
+                            imageUrl: this.form.trueImgUrl,
                             content_info: this.form.content,
                         }).then(res=> {
                             this.$message.success("修改成功！");
