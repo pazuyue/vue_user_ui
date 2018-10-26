@@ -19,15 +19,16 @@
             <el-row>
                 <el-col :span="24">
                     <el-form ref="form" :model="form" status-icon :rules="rules2" label-width="80px">
-                        <el-form-item label="上级类目" prop="parentname">
+                        <el-form-item label="上级类目" prop="selectedOptions">
                             <el-cascader
                                     :options="options"
                                     v-model="selectedOptions"
+                                    @change="handleChange"
                                     change-on-select>
                             </el-cascader>
                         </el-form-item>
-                        <el-form-item label="类目" prop="email">
-                            <el-input v-model="form.article_id"></el-input>
+                        <el-form-item label="类目" prop="article_name">
+                            <el-input v-model="form.article_name"></el-input>
                         </el-form-item>
 
                         <el-form-item style="margin-top: 140px;">
@@ -62,6 +63,7 @@
                 }
             };
             return {
+                loading: false,
                 form: {
                     article_name:'',
                 },
@@ -69,19 +71,19 @@
                     {
                         value: '0',
                         label: '根类目',
+                        children: [
+                            {value: '1',
+                            label: '根类目2',
+                                children: [
+                                    {value: '2',
+                                        label: '根类目2',
+                                    }
+                                ]
+                            }
+                            ]
                     },
-                    {
-                    value: 'zhinan',
-                    label: '指南',
-                    children: [{
-                        value: 'shejiyuanze',
-                        label: '设计原则',
-                        children: [{
-                            value: 'yizhi',
-                            label: '一致'
-                        }]
-                    }]
-                    }],
+                    ],
+                selectedOptions: [],
                 rules2: {
                     title: [
                         { validator: validate, trigger: 'blur' }
@@ -90,22 +92,41 @@
             }
         },
         mounted() {
+            this.articledata();
         },
         methods: {
+            articledata(){
+                this.options=[{value: '0', label: '根类目'}];
+                this.loading = true
+                this.$ajax({
+                    method: 'get',
+                    url: '/api/api/article/articleList',
+                }).then(response => {
+                    var data = response.data.data;
+                    console.log(data);
+                    this.options=data;
+                    this.options.push({value: '0', label: '根类目'})
+                    this.loading = false
+                });
+            },
 
+            handleChange(value) {
+
+                this.selectedOptions =value
+                console.log(value);
+            },
 
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('/api/api/news/saveNew',{
-                            title:this.form.title,
-                            article_id: this.form.article_id,
-                            imageUrl: this.form.imageUrl,
-                            content_info: this.form.content,
+                        this.$ajax.post('/api/api/article/saveArticle',{
+                            parent_id:this.selectedOptions[this.selectedOptions.length - 1],
+                            selectedOptions:this.selectedOptions,
+                            article_name: this.form.article_name,
                         }).then(res=> {
                             this.$message.success("添加成功！");
+                            parent.location.reload();
                         }).catch(error => {
-
                             this.$message.error("添加失败");
                         });
                     } else {

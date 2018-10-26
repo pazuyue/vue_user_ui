@@ -120,7 +120,7 @@
                             desc: this.form.desc,
                         }).then(res=> {
                             this.$message.success("修改成功！");
-                            parent.location.reload();
+                            location.reload();
                         }).catch(error => {
 
                             this.$message.error("修改失败");
