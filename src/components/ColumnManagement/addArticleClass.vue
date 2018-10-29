@@ -68,7 +68,7 @@
                     article_name:'',
                 },
                 options: [
-                    {
+                   /* {
                         value: '0',
                         label: '根类目',
                         children: [
@@ -81,7 +81,7 @@
                                 ]
                             }
                             ]
-                    },
+                    },*/
                     ],
                 selectedOptions: [],
                 rules2: {
@@ -96,7 +96,7 @@
         },
         methods: {
             articledata(){
-                this.options=[{value: '0', label: '根类目'}];
+                //this.options=[{value: '0', label: '根类目'}];
                 this.loading = true
                 this.$ajax({
                     method: 'get',
@@ -106,6 +106,7 @@
                     console.log(data);
                     this.options=data;
                     this.options.push({value: '0', label: '根类目'})
+                    this.form.article_name =""
                     this.loading = false
                 });
             },
@@ -125,7 +126,7 @@
                             article_name: this.form.article_name,
                         }).then(res=> {
                             this.$message.success("添加成功！");
-                            parent.location.reload();
+                            this.articledata();
                         }).catch(error => {
                             this.$message.error("添加失败");
                         });

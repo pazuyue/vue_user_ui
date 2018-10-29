@@ -31,23 +31,29 @@
                         <el-menu-item-group>
                             <el-menu-item index="2-1">资讯栏目</el-menu-item>
                             <el-menu-item index="2-2">资讯添加</el-menu-item>
-                            <el-menu-item index="2-3">类目添加</el-menu-item>
                         </el-menu-item-group>
                         <!--<el-submenu index="1-3">
                             <template slot="title">友情链接</template>
                             <el-menu-item index="1-3-1">选项1</el-menu-item>
                         </el-submenu>-->
                     </el-submenu>
-                    <el-menu-item index="3">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">广告管理</span>
-                    </el-menu-item>
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-location"></i>
+                            <span>类目管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1">类目添加</el-menu-item>
+                            <el-menu-item index="3-2">类目栏目</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
                 </el-menu>
             </el-col>
             <el-col :span="20">
                 <listNewView  v-bind:user_id="2" v-if="menuViewID==2.1"></listNewView>
                 <addNewView  v-bind:user_id="2" v-if="menuViewID==2.2"></addNewView>
-                <addArticleClassView  v-bind:user_id="2" v-if="menuViewID==2.3"></addArticleClassView>
+                <addArticleClassView  v-bind:user_id="2" v-if="menuViewID==3.1"></addArticleClassView>
+                <articleClassListView  v-bind:user_id="2" v-if="menuViewID==3.2"></articleClassListView>
             </el-col>
         </el-row>
 
@@ -66,6 +72,7 @@
     import addNewView from './addNew.vue'
     import listNewView from './newList.vue'
     import addArticleClassView from  './addArticleClass.vue'
+    import articleClassListView from  './articleClassList.vue'
 
     /*引入公共样式*/
 
@@ -74,7 +81,8 @@
         components: {
             addNewView,
             listNewView,
-            addArticleClassView
+            addArticleClassView,
+            articleClassListView
         },
         data() {
             return {
@@ -104,12 +112,13 @@
                 else if(key=='2-2'){
                     this.menuViewID=2.2
                 }
-                else if(key=='2-3'){
-                    this.menuViewID=2.3
+                else if(key=='3-1'){
+                    this.menuViewID=3.1
                 }
-                else if(key=='3'){
-                    this.menuViewID=1
-                }else{
+                else if(key=='3-2'){
+                    this.menuViewID=3.2
+                }
+                else{
                     this.menuViewID=""
                 }
 
