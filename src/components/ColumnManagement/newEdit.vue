@@ -7,7 +7,7 @@
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                         <el-breadcrumb-item :to="{ path: '/ColumnManagement' }">栏目管理</el-breadcrumb-item>
-                        <el-breadcrumb-item>咨询类目</el-breadcrumb-item>
+                        <el-breadcrumb-item>资讯编辑</el-breadcrumb-item>
                     </el-breadcrumb>
                 </el-col>
             </el-row>
@@ -17,11 +17,16 @@
             <el-row>
                 <el-col :span="24">
                     <el-form ref="form" :model="form" status-icon :rules="rules2" label-width="80px">
-                        <el-form-item label="标题" prop="name">
+                        <el-form-item label="标题" prop="title">
                             <el-input v-model="form.title"></el-input>
                         </el-form-item>
-                        <el-form-item label="类目" prop="email">
-                            <el-input v-model="form.article_id"></el-input>
+                        <el-form-item label="类目" prop="article_id">
+                            <el-cascader
+                                    :options="options"
+                                    v-model="form.article_id"
+                                    @change="handleChange"
+                                    change-on-select>
+                            </el-cascader>
                         </el-form-item>
 
                         <el-form-item label="上传Logo" prop="is_open">
@@ -128,6 +133,7 @@
                 serverUrl: '/api/api/file/pustFile',  // 这里写你要上传的图片服务器地址
                 //header: {token: sessionStorage.token},  // 有的图片服务器要求请求头需要有token之类的参数，写在这里
                 detailContent: '', // 富文本内容
+                options: [],
                 editorOption: {
 
                     placeholder: '',
@@ -149,7 +155,7 @@
                 },  // 富文本编辑器配置
                 form: {
                     title: '',
-                    article_id:'',
+                    article_id:[],
                     imageUrl:'',
                     content:'',
                 },
@@ -173,6 +179,7 @@
         },
         mounted: function() {
             this.newdata()
+            this.articledata()
         },
         methods: {
             newdata(){
@@ -185,14 +192,36 @@
                     console.log(data.data);
                     this.form.title=data.data.title
                     this.form.article_id=data.data.article_id
-                    this.form.imageUrl='/api/'+data.data.imageUrl
+
                     this.form.content=data.data.content
 
-                    if(data.data.imageUrl != "" || data.data.imageUrl != null || data.data.imageUrl != undefined){
+                    if(data.data.imageUrl != null){
                         this.is_open=true;
+
+                        this.form.imageUrl='/api/'+data.data.imageUrl
                     }
                     this.loading=false
                 });
+            },
+
+            articledata(){
+                //this.options=[{value: '0', label: '根类目'}];
+                this.loading = true
+                this.$ajax({
+                    method: 'get',
+                    url: '/api/api/article/articleList',
+                }).then(response => {
+                    var data = response.data.data;
+                    console.log(data);
+                    this.options=data;
+                    this.options.push({value: '0', label: '根类目'})
+                    this.form.article_name =""
+                    this.loading = false
+                });
+            },
+            handleChange(value) {
+                this.form.article_id =value
+                console.log(this.form.article_id);
             },
 
             // 上传图片前

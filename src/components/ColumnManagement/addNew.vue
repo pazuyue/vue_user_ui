@@ -22,8 +22,13 @@
                         <el-form-item label="标题" prop="name">
                             <el-input v-model="form.title"></el-input>
                         </el-form-item>
-                        <el-form-item label="类目" prop="email">
-                            <el-input v-model="form.article_id"></el-input>
+                        <el-form-item label="类目" prop="article_id">
+                            <el-cascader
+                                    :options="options"
+                                    v-model="form.article_id"
+                                    @change="handleChange"
+                                    change-on-select>
+                            </el-cascader>
                         </el-form-item>
 
                         <el-form-item label="上传Logo" prop="is_open">
@@ -128,6 +133,7 @@
                 serverUrl: '/api/api/file/pustFile',  // 这里写你要上传的图片服务器地址
                 //header: {token: sessionStorage.token},  // 有的图片服务器要求请求头需要有token之类的参数，写在这里
                 detailContent: '', // 富文本内容
+                options: [],
                 editorOption: {
 
                     placeholder: '',
@@ -149,7 +155,7 @@
                 },  // 富文本编辑器配置
                 form: {
                     title: '',
-                    article_id:'',
+                    article_id:[],
                     imageUrl:'',
                     content:'',
                 },
@@ -167,6 +173,7 @@
             }
         },
         mounted() {
+            this.articledata();
         },
         methods: {
             // 上传图片前
@@ -211,7 +218,7 @@
                         this.$ajax.post('/api/api/news/saveNew',{
                             title:this.form.title,
                             article_id: this.form.article_id,
-                            imageUrl: this.form.imageUrl,
+                            imageUrl: this.form.trueImgUrl,
                             content_info: this.form.content,
                         }).then(res=> {
                             this.$message.success("添加成功！");
@@ -246,7 +253,25 @@
                 }
                 return isJPG && isLt2M;
             },
-
+            articledata(){
+                //this.options=[{value: '0', label: '根类目'}];
+                this.loading = true
+                this.$ajax({
+                    method: 'get',
+                    url: '/api/api/article/articleList',
+                }).then(response => {
+                    var data = response.data.data;
+                    console.log(data);
+                    this.options=data;
+                    this.options.push({value: '0', label: '根类目'})
+                    this.form.article_name =""
+                    this.loading = false
+                });
+            },
+            handleChange(value) {
+                this.form.article_id =value
+                console.log(this.form.article_id);
+            },
         },
     }
 </script>
