@@ -127,6 +127,7 @@
                 }).then(res=> {
                     console.log(res);
                     this.$message.success("删除成功！");
+                    this.newdata();
                 }).catch(error => {
                     console.log(error);
                     this.$message.error(error);
